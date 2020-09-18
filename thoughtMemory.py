@@ -1,3 +1,5 @@
+import sys
+
 def return_gedanken():
     if len(thoughts) == 0:
         return("Du hast noch keine Gedanken gespeichert!")
@@ -8,15 +10,23 @@ def commands():
     command_list = ["gedanken"] # later, i will rename all functions and commands
     return(command_list[0:])
 
-print("Thought Memory") 
+def quit():
+    running = False
+    sys.exit()
 
 thoughts = ["Gedanke", "2. Gedanke"]
 
-if (input() == "gedanken"):
-    print(return_gedanken())
+running = True
 
-if (input() == "commands" or "help"):
-    print(commands()) 
+if __name__ == '__main__':
+    print("Thought Memory") 
+    # while running:
 
-# Test
+    if input() == "gedanken":
+        print(return_gedanken())
+    elif input() == "commands" or "help":
+        print(commands()) 
+    elif input() == "exit":
+        quit()
 
+            
