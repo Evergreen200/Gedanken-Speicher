@@ -1,12 +1,5 @@
-def return_gedanken():
-    if len(thoughts) == 0:
-        return ("Du hast noch keine Gedanken gespeichert!")
-    else:
-        return (thoughts[0:])
-
-thoughts = ["Gedanke", "2. Gedanke"]
-
-running = True
+import json
+# TODO: Implement json, delete function
 
 def quit_program():
     exit(0)
@@ -15,19 +8,36 @@ def print_help():
     print(Commands.keys())
 
 def print_thoughts():
-    pass
+    with open('data.json') as file:
+        data = json.load(file)
+#   print(json.dumps(data["thoughts"], indent=4))
 
-def write():
-    pass
+    for thoughts in data['thoughts']:
+        print(thoughts['name'], thoughts['content'])
 
-def load():
-    pass
+def new_thought():
+    with open('data.json') as file:
+        data = json.load(file)
+
+    thought_name_ui = input("Dein Gedanke: ")
+    thought_content_ui = input("Inhalt: ")
+
+    list = [{"name": "Name", "content": "Inhalt"}]
+    data['thoughts'].extend(list)
+
+#   print(data['thoughts'][-1]) -> to check if the element was added
+
+    data['thoughts'][-1] = {'name': thought_name_ui, 'content': thought_content_ui}
+
+    with open('data.json', 'w') as fout:
+        fout.write(json.dumps(data, indent=4))
+
+
 Commands = {
     'help': print_help,
     'quit': quit_program,
-    'thoughts': print_thoughts,
-    'write': write,
-    'load': load
+    'thoughts': print_thoughts, # thoughts.thought1 for specific thought
+    'new': new_thought
 }
 
 if __name__ == '__main__':
