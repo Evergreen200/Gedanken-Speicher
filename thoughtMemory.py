@@ -1,11 +1,14 @@
 import json
 # TODO: Implement json, delete function
 
+
 def quit_program():
     exit(0)
 
+
 def print_help():
     print(Commands.keys())
+
 
 def print_thoughts():
     with open('data.json') as file:
@@ -14,6 +17,7 @@ def print_thoughts():
 
     for thoughts in data['thoughts']:
         print(thoughts['name'], thoughts['content'])
+
 
 def new_thought():
     with open('data.json') as file:
@@ -36,19 +40,24 @@ def new_thought():
 Commands = {
     'help': print_help,
     'quit': quit_program,
-    'thoughts': print_thoughts, # thoughts.thought1 for specific thought
-    'new': new_thought
+    'thoughts': print_thoughts, # thoughts.thought1 for specific thought -> thoughts.raw thoughts.all, ...
+    'new': new_thought,
 }
 
 if __name__ == '__main__':
     print("Thought Memory")
     while True:
-        command = input("> ").lower().split(" ")
-        if command[0] in Commands:
-            if len(command) > 1:
-                Commands[command[0]](command[:])
+        try:
+            command = input("> ").lower().split(" ")
+            if command[0] in Commands:
+                if len(command) > 1:
+                    Commands[command[0]](command[:])
+                else:
+                    Commands[command[0]]()
             else:
-                Commands[command[0]]()
-        else:
-            print("Unknown command")
+                print("Unknown command!")
+        except Exception as error:
+            print("Wrong syntax!")
+
+
 
